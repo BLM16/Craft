@@ -2,7 +2,10 @@
 #include <filesystem>
 #include <string>
 
+#include "Utils.h"
+
 namespace fs = std::filesystem;
+using std::string;
 
 int main(int argc, char **argv) {
 
@@ -22,6 +25,8 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	// Get the function to execute
+	// Get the function to execute from the craftfile
 	char* function_to_execue = argv[1];
+	// Read the data from the craft file
+	string craftfile_data = read_file(current_path / ".craft");
 }
