@@ -9,3 +9,4 @@ namespace fs = std::filesystem;
 using std::string;
 
 string read_file(fs::path path);
+string trim(string str);
