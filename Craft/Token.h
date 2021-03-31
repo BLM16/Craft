@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <optional>
 #include <map>
 
 enum class TokenType
@@ -25,7 +24,7 @@ static std::map<TokenType, std::string> TokenStringMap {
 	{ TokenType::UNSET, "UNSET" }
 };
 
-class Token
+struct Token
 {
 public:
 	// Initialize the token type to unset
