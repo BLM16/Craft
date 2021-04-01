@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 
-enum class TokenType
+enum class TokenType : short
 {
 	VARIABLE,
 	COMMAND,

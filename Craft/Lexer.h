@@ -2,12 +2,13 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "Token.h"
 #include "Utils.h"
 
 // Used to determine whether to continue or not after lexing
-enum class LexerState
+enum class LexerState : short
 {
 	OK,
 	ERROR

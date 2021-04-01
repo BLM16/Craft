@@ -4,11 +4,13 @@
 
 #include "Utils.h"
 #include "Lexer.h"
+#include "Parser.h"
 
 namespace fs = std::filesystem;
 using std::string;
 
 Lexer LEXER = Lexer();
+Parser PARSER = Parser();
 
 int main(int argc, char **argv)
 {
@@ -40,6 +42,14 @@ int main(int argc, char **argv)
 	if (LEXER.getState() == LexerState::ERROR)
 	{
 		std::cout << "Craft job terminated." << std::endl;
-		return(1);
+		return 1;
+	}
+
+	// Convert the tokens into node trees
+	std::vector<Node> Nodes = PARSER.parse(Tokens);
+	if (PARSER.getState() == ParserState::ERROR)
+	{
+		std::cout << "Craft job terminated." << std::endl;
+		return 1;
 	}
 }

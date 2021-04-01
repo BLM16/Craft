@@ -30,7 +30,7 @@
     <ClCompile Include="Lexer.cpp">
       <Filter>Source Files\Parsing</Filter>
     </ClCompile>
-    <ClCompile Include="Token.cpp">
+    <ClCompile Include="Parser.cpp">
       <Filter>Source Files\Parsing</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,6 +42,12 @@
       <Filter>Header Files\Parsing</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
+      <Filter>Header Files\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
       <Filter>Header Files\Parsing</Filter>
     </ClInclude>
   </ItemGroup>
