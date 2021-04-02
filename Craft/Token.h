@@ -3,6 +3,9 @@
 #include <string>
 #include <map>
 
+/// <summary>
+/// The types of tokens
+/// </summary>
 enum class TokenType : short
 {
 	VARIABLE,
@@ -14,6 +17,9 @@ enum class TokenType : short
 	UNSET
 };
 
+/// <summary>
+/// Maps TokenType's name to a string for use in debugging
+/// </summary>
 static std::map<TokenType, std::string> TokenStringMap {
 	{ TokenType::VARIABLE, "VARIABLE" },
 	{ TokenType::COMMAND, "COMMAND" },
@@ -24,11 +30,22 @@ static std::map<TokenType, std::string> TokenStringMap {
 	{ TokenType::UNSET, "UNSET" }
 };
 
+/// <summary>
+/// Token holds data and metadata about a portion of the craftfile
+/// </summary>
 struct Token
 {
 public:
-	// Initialize the token type to unset
+	/// <summary>
+	/// The token instance's type
+	/// </summary>
 	enum TokenType Type { TokenType::UNSET };
+	/// <summary>
+	/// The value of the token instance
+	/// </summary>
 	std::string Value;
+	/// <summary>
+	/// The line number in the craftfile that the token is on for use in debuging and error logging
+	/// </summary>
 	size_t LineNumber { 0 };
 };

@@ -1,9 +1,16 @@
 #include "Lexer.h"
 
+/// <summary>
+/// The function that tokenizes the craftfile data
+/// </summary>
+/// <param name="data">The data to tokenize</param>
+/// <returns>A vector of Tokens</returns>
 std::vector<Token> Lexer::parse(std::string data)
 {
+	// Loop through every character in the data
 	for (char c : data)
 	{
+		// Determine the type of token the character is part of
 		switch (c)
 		{
 		case '\\':
@@ -26,12 +33,14 @@ std::vector<Token> Lexer::parse(std::string data)
 					currentToken.Type = TokenType::COMMENT;
 				else
 				{
+					// A comment has been reached so we close the previous token and comment the rest of the line
 					CloseToken();
 					currentToken.Type = TokenType::COMMENT;
 				}
 			}
 			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
 			{
+				// Token is either a string literal or a comment already so we just append the # to the current token
 				if (isEscaped)
 					isEscaped = false;
 				currentToken.Value.append(1, c);
@@ -77,11 +86,13 @@ std::vector<Token> Lexer::parse(std::string data)
 				}
 				else
 				{
+					// Token is a variable so we set it to be a variable and close the token
 					currentToken.Type = TokenType::VARIABLE;
 					CloseToken();
 				}
 			}
 			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
+				// Current token is a string literal or a comment so we just append the = to the current token
 				currentToken.Value.append(1, c);
 			else
 				ThrowLexerSyntaxError("Invalid use of character \"=\"");
@@ -97,11 +108,13 @@ std::vector<Token> Lexer::parse(std::string data)
 				}
 				else
 				{
+					// Token is a function so we set it to be a function and close the token
 					currentToken.Type = TokenType::FUNCTION;
 					CloseToken();
 				}
 			}
 			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
+				// Current token is a string literal or a comment so we just append the : to the current token
 				currentToken.Value.append(1, c);
 			else
 				ThrowLexerSyntaxError("Invalid use of character \":\"");
@@ -109,31 +122,38 @@ std::vector<Token> Lexer::parse(std::string data)
 
 		case '!':
 			if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
+				// Current token is a string literal or a comment so we just append the ! to the current token
 				currentToken.Value.append(1, c);
 			else if (currentToken.Type != TokenType::UNSET)
 				ThrowLexerSyntaxError("Invalid use of character \"!\"");
 			else
+				// Token is a function call
 				currentToken.Type = TokenType::FUNCTION_CALL;
 			break;
 
 		case ' ':
 		case '\t':
 			if (currentToken.Type != TokenType::STRING_LITERAL && currentToken.Type != TokenType::COMMENT && currentToken.Type != TokenType::UNSET)
+				// Whitespace has been reached where the current token is not a string literal or a comment or unset so we close the token
 				CloseToken();
 			else
-				// Token is a string or comment so the space is part of it
+				// Current token is a string or comment so we append the space to it
 				currentToken.Value.append(1, c);
 			break;
 
 		case '\n':
 			if (isEscaped)
+				// Newline is escaped so we just treat this as if the next line is on the current line
 				isEscaped = false;
 			else
+				// Newline is not escaped meaning the current token is closed
 				CloseToken();
+			// Increment the line number used for debugging and error logging
 			lineNumber++;
 			break;
 
 		default:
+			// The character is not one of the "keywords" or reserved tokens so we append it to the current token
 			currentToken.Value.append(1, c);
 			break;
 		}
@@ -142,6 +162,9 @@ std::vector<Token> Lexer::parse(std::string data)
 	return Tokens;
 }
 
+/// <summary>
+/// Adds the current Token to the vector of Tokens and resets the current Token
+/// </summary>
 void Lexer::CloseToken()
 {
 	// Type has not been determined, therefore it is a command
@@ -161,6 +184,10 @@ void Lexer::CloseToken()
 	currentToken.Value.erase();
 }
 
+/// <summary>
+/// Throws errors that are encountered in the lexing process and sets the lexer state to error
+/// </summary>
+/// <param name="msg">The message to throw as the error</param>
 void Lexer::ThrowLexerSyntaxError(std::string msg) {
 	STATE = LexerState::ERROR;
 	std::cerr << "Syntax Error @ln:" << lineNumber << "\n\tError: " << msg << std::endl;

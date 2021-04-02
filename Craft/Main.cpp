@@ -6,10 +6,16 @@
 #include "Lexer.h"
 #include "Parser.h"
 
+// Simplify the namespace for std::filesystem
 namespace fs = std::filesystem;
-using std::string;
 
+/// <summary>
+/// Lexer instance used for tokenization
+/// </summary>
 Lexer LEXER = Lexer();
+/// <summary>
+/// Parser instance used for making node trees
+/// </summary>
 Parser PARSER = Parser();
 
 int main(int argc, char **argv)
@@ -35,7 +41,7 @@ int main(int argc, char **argv)
 	// Get the function to execute from the craftfile
 	char* function_to_execue = argv[1];
 	// Read the data from the craft file
-	string craftfile_data = read_file(current_path / ".craft");
+	std::string craftfile_data = read_file(current_path / ".craft");
 
 	// Tokenize the craftfile contents
 	std::vector<Token> Tokens = LEXER.parse(craftfile_data);
