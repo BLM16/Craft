@@ -4,11 +4,35 @@
 #include <string>
 
 /// <summary>
+/// The types of nodes
+/// </summary>
+enum class NodeType : short
+{
+	FUNCTION,
+	COMMAND,
+	UNSET
+};
+
+/// <summary>
+/// Maps NodeType's name to a string for use in debugging
+/// </summary>
+static std::map<NodeType, std::string> NodeStringMap
+{
+	{ NodeType::FUNCTION, "FUNCTION" },
+	{ NodeType::COMMAND, "COMMAND" },
+	{ NodeType::UNSET, "UNSET" }
+};
+
+/// <summary>
 /// Node holds command values, or sub-nodes if the node is a function
 /// </summary>
 struct Node
 {
 public:
+	/// <summary>
+	/// The node instance's type
+	/// </summary>
+	NodeType Type { NodeType::UNSET };
 	/// <summary>
 	/// Node instance's name or value
 	/// </summary>

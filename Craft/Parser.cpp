@@ -27,6 +27,7 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 			else if (tok.Value != "")
 			{
 				// Command node is created
+				currentNode.Type = NodeType::COMMAND;
 				currentNode.Name = tok.Value;
 				// Replace variables with their values before appending
 				ReplaceVariables(tok, currentNode.Name);
@@ -49,6 +50,7 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 				if (parentNode.Name != "")
 					AppendNode(parentNode);
 				// Set the parent node to be the new function
+				parentNode.Type = NodeType::FUNCTION;
 				parentNode.Name = tok.Value;
 			}
 			break;

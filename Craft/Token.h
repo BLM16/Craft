@@ -20,7 +20,8 @@ enum class TokenType : short
 /// <summary>
 /// Maps TokenType's name to a string for use in debugging
 /// </summary>
-static std::map<TokenType, std::string> TokenStringMap {
+static std::map<TokenType, std::string> TokenStringMap
+{
 	{ TokenType::VARIABLE, "VARIABLE" },
 	{ TokenType::COMMAND, "COMMAND" },
 	{ TokenType::FUNCTION, "FUNCTION" },
@@ -39,7 +40,7 @@ public:
 	/// <summary>
 	/// The token instance's type
 	/// </summary>
-	enum TokenType Type { TokenType::UNSET };
+	TokenType Type { TokenType::UNSET };
 	/// <summary>
 	/// The value of the token instance
 	/// </summary>
