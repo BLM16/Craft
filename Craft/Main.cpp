@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "Lexer.h"
 #include "Parser.h"
+#include "Interpreter.h"
 
 // Simplify the namespace for std::filesystem
 namespace fs = std::filesystem;
@@ -17,6 +18,10 @@ Lexer LEXER = Lexer();
 /// Parser instance used for making node trees
 /// </summary>
 Parser PARSER = Parser();
+/// <summary>
+/// Interpreter instance used for executing shell commands
+/// </summary>
+Interpreter INTERPRETER = Interpreter();
 
 int main(int argc, char **argv)
 {
@@ -54,6 +59,13 @@ int main(int argc, char **argv)
 	// Convert the tokens into node trees
 	std::vector<Node> Nodes = PARSER.parse(Tokens);
 	if (PARSER.getState() == ParserState::ERROR)
+	{
+		std::cout << "Craft job terminated." << std::endl;
+		return 1;
+	}
+
+	INTERPRETER.execute(function_to_execue, Nodes);
+	if (INTERPRETER.getState() == InterpreterState::ERROR)
 	{
 		std::cout << "Craft job terminated." << std::endl;
 		return 1;

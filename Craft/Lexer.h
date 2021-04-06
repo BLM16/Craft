@@ -50,7 +50,7 @@ private:
 	/// <summary>
 	/// The line number in the craftfile for use in debugging and error reporting
 	/// </summary>
-	int lineNumber{ 1 };
+	int lineNumber { 1 };
 	/// <summary>
 	/// Used to store whether or not the current character is escaped with a backslash
 	/// </summary>

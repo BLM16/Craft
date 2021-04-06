@@ -40,7 +40,7 @@ private:
 	/// <summary>
 	/// The parser instance's current state
 	/// </summary>
-	ParserState STATE{ ParserState::OK };
+	ParserState STATE { ParserState::OK };
 	/// <summary>
 	/// The vector containing the Nodes that gets returned from parse
 	/// </summary>

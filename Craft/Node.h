@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 /// <summary>
 /// The types of nodes
