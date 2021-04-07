@@ -6,12 +6,18 @@
 
 #include "Node.h"
 
+/// <summary>
+/// The states of the interpreter
+/// </summary>
 enum class InterpreterState : short
 {
 	OK,
 	ERROR
 };
 
+/// <summary>
+/// Used to interpret and execute commands from nodes
+/// </summary>
 class Interpreter
 {
 public:
