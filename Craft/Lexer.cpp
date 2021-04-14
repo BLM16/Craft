@@ -23,6 +23,7 @@ std::vector<Token> Lexer::parse(std::string data)
 				isEscaped = false;
 			}
 			else
+				// TODO: This might be preventing all character escapes so test and fix if needed
 				ThrowLexerSyntaxError("Invalid character escape");
 			break;
 
@@ -38,9 +39,9 @@ std::vector<Token> Lexer::parse(std::string data)
 					currentToken.Type = TokenType::COMMENT;
 				}
 			}
-			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
+			else if (currentToken.Type == TokenType::COMMENT)
 			{
-				// Token is either a string literal or a comment already so we just append the # to the current token
+				// Token is a comment already so we just append the # to the current token
 				if (isEscaped)
 					isEscaped = false;
 				currentToken.Value.append(1, c);
@@ -53,46 +54,39 @@ std::vector<Token> Lexer::parse(std::string data)
 			}
 			break;
 
-		case '\"':
-			if (currentToken.Type == TokenType::UNSET)
-			{
-				if (!isEscaped)
-					// Token is unset so make it a string
-					currentToken.Type = TokenType::STRING_LITERAL;
-				else
-					ThrowLexerSyntaxError("Invalid character escape");
-			}
-			else if (currentToken.Type == TokenType::STRING_LITERAL)
-			{
-				if (isEscaped)
-				{
-					// Treat as character not end of string literal
-					currentToken.Value.append(1, c);
-					isEscaped = false;
-				}
-				else
-					// The string is ended
-					CloseToken();
-			}
-			break;
+		//case '\"':
+		//	if (currentToken.Type == TokenType::UNSET)
+		//	{
+		//		if (!isEscaped)
+		//			// Token is unset so make it a string
+		//			currentToken.Type = TokenType::STRING_LITERAL;
+		//		else
+		//			ThrowLexerSyntaxError("Invalid character escape");
+		//	}
+		//	else if (currentToken.Type == TokenType::STRING_LITERAL)
+		//	{
+		//		if (isEscaped)
+		//		{
+		//			// Treat as character not end of string literal
+		//			currentToken.Value.append(1, c);
+		//			isEscaped = false;
+		//		}
+		//		else
+		//			// The string is ended
+		//			CloseToken();
+		//	}
+		//	break;
 
 		case '=':
 			if (currentToken.Type == TokenType::UNSET)
 			{
 				if (isEscaped)
-				{
-					ThrowLexerSyntaxError("Invalid character escape");
 					isEscaped = false;
-				}
 				else
-				{
-					// Token is a variable so we set it to be a variable and close the token
 					currentToken.Type = TokenType::VARIABLE;
-					CloseToken();
-				}
+				currentToken.Value.append(1, c);
 			}
-			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
-				// Current token is a string literal or a comment so we just append the = to the current token
+			else if (currentToken.Type == TokenType::COMMENT)
 				currentToken.Value.append(1, c);
 			else
 				ThrowLexerSyntaxError("Invalid use of character \"=\"");
@@ -113,16 +107,16 @@ std::vector<Token> Lexer::parse(std::string data)
 					CloseToken();
 				}
 			}
-			else if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
-				// Current token is a string literal or a comment so we just append the : to the current token
+			else if (currentToken.Type == TokenType::COMMENT)
+				// Current token is a comment so we just append the : to the current token
 				currentToken.Value.append(1, c);
 			else
 				ThrowLexerSyntaxError("Invalid use of character \":\"");
 			break;
 
 		case '!':
-			if (currentToken.Type == TokenType::STRING_LITERAL || currentToken.Type == TokenType::COMMENT)
-				// Current token is a string literal or a comment so we just append the ! to the current token
+			if (currentToken.Type == TokenType::COMMENT)
+				// Current token is a comment so we just append the ! to the current token
 				currentToken.Value.append(1, c);
 			else if (currentToken.Type != TokenType::UNSET)
 				ThrowLexerSyntaxError("Invalid use of character \"!\"");
@@ -133,11 +127,11 @@ std::vector<Token> Lexer::parse(std::string data)
 
 		case ' ':
 		case '\t':
-			if (currentToken.Type != TokenType::STRING_LITERAL && currentToken.Type != TokenType::COMMENT && currentToken.Type != TokenType::UNSET)
-				// Whitespace has been reached where the current token is not a string literal or a comment or unset so we close the token
+			if (currentToken.Type != TokenType::COMMENT && currentToken.Type != TokenType::VARIABLE && currentToken.Type != TokenType::UNSET)
+				// Whitespace has been reached where the current token is not a comment, a variable or unset so we close the token
 				CloseToken();
 			else
-				// Current token is a string or comment so we append the space to it
+				// Current token is a variable or comment so we append the space to it
 				currentToken.Value.append(1, c);
 			break;
 

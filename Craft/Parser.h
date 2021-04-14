@@ -3,11 +3,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <map>
 #include <regex>
 
 #include "Token.h"
 #include "Node.h"
+#include "Utils.h"
 
 /// <summary>
 /// The states of the parser
@@ -53,10 +55,6 @@ private:
 	/// The current node that is being parsed
 	/// </summary>
 	Node currentNode;
-	/// <summary>
-	/// The current variable name used to map variables
-	/// </summary>
-	std::string currentVar;
 	/// <summary>
 	/// The map of variable names to their values
 	/// </summary>

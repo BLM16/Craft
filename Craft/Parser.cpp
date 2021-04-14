@@ -14,15 +14,26 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 		switch (tok.Type)
 		{
 		case TokenType::VARIABLE:
-			if (currentNode.Name != "" || currentVar != "")
+			if (currentNode.Name != "")
 				ThrowParserSyntaxError(tok, "Invalid variable definition");
 			else
-				// Set currentVar to the variable name
-				currentVar = tok.Value;
+			{
+				// Split the variable at the = sign
+				std::istringstream ss(tok.Value);
+				std::string segment;
+				std::vector<std::string> parts;
+				while (std::getline(ss, segment, '='))
+					parts.push_back(trim(segment));
+
+				// Replace the variables in the value with their values
+				ReplaceVariables(tok, parts[1]);
+				// Add the variable to the map of variables
+				variables[parts[0]] = parts[1];
+			}
 			break;
 
 		case TokenType::COMMAND:
-			if (currentNode.Name != "" || currentVar != "")
+			if (currentNode.Name != "")
 				ThrowParserSyntaxError(tok, "Invalid command definition");
 			else if (tok.Value != "")
 			{
@@ -42,7 +53,7 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 			break;
 
 		case TokenType::FUNCTION:
-			if (currentNode.Name != "" || currentVar != "")
+			if (currentNode.Name != "")
 				ThrowParserSyntaxError(tok, "Invalid function definition");
 			else
 			{
@@ -56,7 +67,7 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 			break;
 
 		case TokenType::FUNCTION_CALL:
-			if (currentNode.Name != "" || currentVar != "")
+			if (currentNode.Name != "")
 				ThrowParserSyntaxError(tok, "Invalid function call");
 			else
 			{
@@ -74,26 +85,6 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 					// Append all the child nodes from the function node to the target
 					for (Node n : called.Nodes)
 						target.push_back(n);
-				}
-			}
-			break;
-
-		case TokenType::STRING_LITERAL:
-			if (currentNode.Name != "")
-				ThrowParserSyntaxError(tok, "Invalid string literal");
-			else
-			{
-				// Current variable name is not defined so this is an invalid variable declaration
-				if (currentVar == "")
-					ThrowParserSyntaxError(tok, "Invalid string literal");
-				else
-				{
-					// Replace the variables in the string with their values
-					ReplaceVariables(tok, tok.Value);
-					// Add the variable to the map of variables
-					variables[currentVar] = tok.Value;
-					// Reset the current variable name
-					currentVar.erase();
 				}
 			}
 			break;
