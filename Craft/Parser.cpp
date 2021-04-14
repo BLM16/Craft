@@ -89,26 +89,6 @@ std::vector<Node> Parser::parse(std::vector<Token> Tokens)
 			}
 			break;
 
-		// case TokenType::STRING_LITERAL:
-		// 	if (currentNode.Name != "")
-		// 		ThrowParserSyntaxError(tok, "Invalid string literal");
-		// 	else
-		// 	{
-		// 		// Current variable name is not defined so this is an invalid variable declaration
-		// 		if (currentVar == "")
-		// 			ThrowParserSyntaxError(tok, "Invalid string literal");
-		// 		else
-		// 		{
-		// 			// Replace the variables in the string with their values
-		// 			ReplaceVariables(tok, tok.Value);
-		// 			// Add the variable to the map of variables
-		// 			variables[currentVar] = tok.Value;
-		// 			// Reset the current variable name
-		// 			currentVar.erase();
-		// 		}
-		// 	}
-		// 	break;
-
 		case TokenType::COMMENT:
 			// Ignore comments
 			break;
