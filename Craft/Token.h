@@ -12,7 +12,6 @@ enum class TokenType : short
 	COMMAND,
 	FUNCTION,
 	FUNCTION_CALL,
-	STRING_LITERAL,
 	COMMENT,
 	UNSET
 };
@@ -26,7 +25,6 @@ static std::map<TokenType, std::string> TokenStringMap
 	{ TokenType::COMMAND, "COMMAND" },
 	{ TokenType::FUNCTION, "FUNCTION" },
 	{ TokenType::FUNCTION_CALL, "FUNCTION_CALL" },
-	{ TokenType::STRING_LITERAL, "STRING_LITERAL" },
 	{ TokenType::COMMENT, "COMMENT" },
 	{ TokenType::UNSET, "UNSET" }
 };

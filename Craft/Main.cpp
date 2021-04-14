@@ -64,6 +64,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	// Have the interpreter run the unscoped and called function commands
 	INTERPRETER.execute(function_to_execue, Nodes);
 	if (INTERPRETER.getState() == InterpreterState::ERROR)
 	{
