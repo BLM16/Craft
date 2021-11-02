@@ -1,0 +1,54 @@
+{
+    "name": "craftfile",
+    "displayName": "Craftfile",
+    "version": "1.1.0",
+    "publisher": "BLM16",
+    "description": "A simpler sort of Makefile to run shell commands.",
+    "author": {
+        "name": "Bradley Myers",
+        "url": "https://github.com/BLM16"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "keywords": [
+        "Craft",
+        "Craftfile",
+        "Makefile",
+        "Build",
+        "Tool"
+    ],
+    "extensionKind": [
+        "ui",
+        "workspace"
+    ],
+    "icon": "assets/logo/Craft_Logo_128x128.png",
+    "galleryBanner": {
+        "color": "#1e1e1e",
+        "theme": "dark"
+    },
+    "engines": {
+        "vscode": "*"
+    },
+    "homepage": "https://github.com/BLM16/Craft#readme",
+    "readme": "https://github.com/BLM16/Craft/blob/master/Craftfile/README.md",
+    "license": "LICENSE",
+    "bugs": "https://github.com/BLM16/Craft/issues",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BLM16/Craft.git"
+    },
+    "contributes": {
+        "languages": [{
+            "id": "craft",
+            "aliases": ["Craftfile", "craft"],
+            "extensions": [".craft"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "craft",
+            "scopeName": "source.craft",
+            "path": "./syntaxes/craft.tmLanguage.json"
+        }]
+    }
+}

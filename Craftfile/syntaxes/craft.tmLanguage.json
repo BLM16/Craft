@@ -1,0 +1,127 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Craftfile",
+	"patterns": [
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#escape"
+		},
+		{
+			"include": "#variable"
+		},
+		{
+			"include": "#variable-assignment"
+		},
+		{
+			"include": "#function"
+		},
+		{
+			"include": "#function-call"
+		}
+	],
+	"repository": {
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.line.number-sign.craft",
+					"begin": "((?<=\\\\\\\\)#)",
+					"end": "$"
+				},
+				{
+					"name": "comment.line.number-sign.craft",
+					"begin": "(?<!\\\\)#",
+					"end": "$"
+				}
+			]
+		},
+		"escape": {
+			"patterns": [{
+				"name": "constant.character.escape.craft",
+				"match": "\\\\\\\\"
+			}]
+		},
+		"variable": {
+			"patterns": [
+				{
+					"comment": "Captures $(text) with an two leading backslashes",
+					"name": "string.interpolated.craft",
+					"match": "(?<=\\\\\\\\)\\$\\(([^\\s:=\\!\\)#]+)\\)",
+					"captures": {
+						"1": {
+							"name": "variable.name.craft"
+						}
+					},
+					"patterns": [{
+						"include": "#comment"
+					}]
+				},
+				{
+					"comment": "Captures $(text) with no leading backslash",
+					"name": "string.interpolated.craft",
+					"match": "(?<!\\\\)\\$\\(([^\\s:=\\!\\)#]+)\\)",
+					"captures": {
+						"1": {
+							"name": "variable.name.craft"
+						}
+					},
+					"patterns": [{
+						"include": "#comment"
+					}]
+				}
+			]
+		},
+		"variable-assignment": {
+			"patterns": [{
+				"begin": "([^\\s=]+)\\s*(=)\\s*([^\\n]+)$",
+				"beginCaptures": {
+					"1": {
+						"name": "variable.name.craft"
+					},
+					"2": {
+						"name": "support.constant"
+					},
+					"3": {
+						"name": "string.unquoted.craft",
+						"patterns": [
+							{
+								"include": "#comment"
+							},
+							{
+								"include": "#variable"
+							},
+							{
+								"include": "#escape"
+							}
+						]
+					}
+				},
+				"end": "$",
+				"patterns": [{
+					"include": "#comment"
+				}]
+			}]
+		},
+		"function": {
+			"patterns": [{
+				"name": "entity.name.function.craft",
+				"begin": "^([^\\\\\\s:]+):",
+				"end": "$",
+				"patterns": [{
+					"include": "#comment"
+				}]
+			}]
+		},
+		"function-call": {
+			"patterns": [{
+				"name": "storage.type.function.craft",
+				"match": "^\\s*\\![^#\\s\\\\]+",
+				"patterns": [{
+					"include": "#comment"
+				}]
+			}]
+		}
+	},
+	"scopeName": "source.craft"
+}

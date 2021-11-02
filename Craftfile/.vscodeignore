@@ -1,0 +1,6 @@
+.vscode/**
+.vscode-test/**
+.gitignore
+
+# Ignore photoshop files and assets
+assets/logo/PS/**
