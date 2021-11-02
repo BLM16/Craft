@@ -1,7 +1,7 @@
 {
     "name": "craftfile",
     "displayName": "Craftfile",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "publisher": "BLM16",
     "description": "A simpler sort of Makefile to run shell commands.",
     "author": {
@@ -39,16 +39,25 @@
         "url": "https://github.com/BLM16/Craft.git"
     },
     "contributes": {
-        "languages": [{
-            "id": "craft",
-            "aliases": ["Craftfile", "craft"],
-            "extensions": [".craft"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "craft",
-            "scopeName": "source.craft",
-            "path": "./syntaxes/craft.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "craft",
+                "aliases": [
+                    "Craftfile",
+                    "craft"
+                ],
+                "extensions": [
+                    ".craft"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "craft",
+                "scopeName": "source.craft",
+                "path": "./syntaxes/craft.tmLanguage.json"
+            }
+        ]
     }
 }
